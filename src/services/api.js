@@ -1,4 +1,3 @@
-// src/services/api.js
 import { API_TOKEN, BASE_URL, API_KEY } from "./config";
 
 const fetchWithToken = (endpoint) => {
@@ -39,6 +38,14 @@ export const getMovieReviews = (movieId) => {
 
 export const getMovieCredits = (movieId) => {
   return fetchWithToken(`movie/${movieId}/credits?api_key=${API_KEY}`);
+};
+
+export const getMovieVideos = (movieId) => {
+  return fetchWithToken(`movie/${movieId}/videos?api_key=${API_KEY}`);
+};
+
+export const getSimilarMovies = (movieId) => {
+  return fetchWithToken(`movie/${movieId}/similar?api_key=${API_KEY}`);
 };
 
 export const searchMovies = (query) => {
