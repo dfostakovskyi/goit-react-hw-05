@@ -1,0 +1,34 @@
+/* src/components/ActorCard/ActorCard.module.css */
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 10px;
+  width: 200px;
+}
+
+.photo {
+  width: 100%;
+  height: auto;
+}
+
+.placeholder {
+  width: 200px;
+  height: 300px;
+  background-color: #ccc;
+}
+
+.details {
+  padding: 10px;
+  text-align: center;
+}
+
+h3 {
+  margin: 10px 0 5px 0;
+  font-size: 1.2em;
+}
+
+p {
+  margin: 5px 0;
+}
