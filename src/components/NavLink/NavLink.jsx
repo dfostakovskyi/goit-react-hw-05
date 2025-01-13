@@ -1,4 +1,5 @@
 // src\components\NavLink\NavLink.jsx
+// src/components/NavLink/NavLink.jsx
 import React from "react";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -11,7 +12,7 @@ const CustomNavLink = ({ to, children }) => {
       className={({ isActive }) =>
         isActive ? `${style.link} ${style.active}` : style.link
       }
-      exact
+      exact="true"
     >
       {children}
     </NavLink>

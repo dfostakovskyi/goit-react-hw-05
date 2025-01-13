@@ -1,13 +1,18 @@
 // src\components\Navigation\Navigation.jsx
+// src\components\Navigation\Navigation.jsx
 import React from "react";
-import CustomNavLink from "../NavLink/NavLink"; // Corrected relative path
+import CustomNavLink from "../NavLink/NavLink";
 import style from "./Navigation.module.css";
 
 const Navigation = () => {
   return (
     <nav className={style.navigation}>
-      <CustomNavLink to="/">Home</CustomNavLink>
-      <CustomNavLink to="/movies">Movies</CustomNavLink>
+      <CustomNavLink exact to="/">
+        Home
+      </CustomNavLink>
+      <CustomNavLink exact to="/movies">
+        Movies
+      </CustomNavLink>
     </nav>
   );
 };

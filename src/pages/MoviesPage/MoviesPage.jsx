@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import { searchMovies } from "../../services/api";
 import { Link, useSearchParams } from "react-router-dom";
+import SimilarMoviesCard from "../../components/SimilarMoviesCard/SimilarMoviesCard";
 import style from "./MoviesPage.module.css";
 
 const MoviesPage = () => {
@@ -38,13 +39,13 @@ const MoviesPage = () => {
       <SearchForm />
       {loading ? (
         <p>Loading...</p>
+      ) : movies.length === 0 && query ? (
+        <p>No movies found for "{query}"</p>
       ) : (
         <ul className={style.list}>
-          {movies.map(({ id, title }) => (
-            <li key={id}>
-              <Link to={`/movies/${id}`}>
-                <p>{title}</p>
-              </Link>
+          {movies.map((movie) => (
+            <li key={movie.id}>
+              <SimilarMoviesCard movie={movie} />
             </li>
           ))}
         </ul>
