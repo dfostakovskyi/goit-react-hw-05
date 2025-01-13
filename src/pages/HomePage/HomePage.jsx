@@ -1,12 +1,15 @@
 // F:\Prodject\goit-react-hw-05\src\pages\HomePage\HomePage.jsx
+
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { getTrendingMovies } from "../../services/api";
-import SimilarMoviesCard from "../../components/SimilarMoviesCard/SimilarMoviesCard"; // Ensure this path is correct
-import style from "./HomePage.module.css"; // Ensure this path is correct
+import MovieList from "../../components/MovieList/MovieList";
+import style from "./HomePage.module.css";
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
     getTrendingMovies()
@@ -22,19 +25,15 @@ const HomePage = () => {
       });
   }, []);
 
+  console.log("HomePage location:", location);
+
   return (
     <div className={style.container}>
       <h2>Trending today</h2>
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <ul className={style.list}>
-          {movies.map((movie) => (
-            <li key={movie.id} className={style.listItem}>
-              <SimilarMoviesCard movie={movie} />
-            </li>
-          ))}
-        </ul>
+        <MovieList movies={movies} state={location.state} />
       )}
     </div>
   );

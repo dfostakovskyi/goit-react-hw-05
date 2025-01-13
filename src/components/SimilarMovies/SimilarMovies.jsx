@@ -2,7 +2,7 @@
 // src\components\SimilarMovies\SimilarMovies.modules.css
 
 import { useState, useEffect } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, Link, useLocation } from "react-router-dom";
 import { getSimilarMovies } from "../../services/api";
 import SimilarMoviesCard from "../SimilarMoviesCard/SimilarMoviesCard";
 import style from "./SimilarMovies.module.css";
@@ -10,6 +10,7 @@ import style from "./SimilarMovies.module.css";
 const SimilarMovies = () => {
   const { movieId } = useOutletContext();
   const [similarMovies, setSimilarMovies] = useState([]);
+  const location = useLocation();
 
   useEffect(() => {
     if (movieId) {
@@ -28,7 +29,13 @@ const SimilarMovies = () => {
       <h2>Similar Movies</h2>
       <div className={style.movieList}>
         {similarMovies.map((similarMovie) => (
-          <SimilarMoviesCard key={similarMovie.id} movie={similarMovie} />
+          <Link
+            key={similarMovie.id}
+            to={`/movies/${similarMovie.id}`}
+            state={{ from: location }}
+          >
+            <SimilarMoviesCard movie={similarMovie} />
+          </Link>
         ))}
       </div>
     </div>

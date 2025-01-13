@@ -1,5 +1,5 @@
 import { API_TOKEN, BASE_URL, API_KEY } from "./config";
-
+// src\services\api.js
 const fetchWithToken = (endpoint) => {
   return fetch(`${BASE_URL}${endpoint}`, {
     headers: {

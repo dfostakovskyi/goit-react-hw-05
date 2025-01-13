@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import { searchMovies } from "../../services/api";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useLocation } from "react-router-dom";
 import SimilarMoviesCard from "../../components/SimilarMoviesCard/SimilarMoviesCard";
 import style from "./MoviesPage.module.css";
 
@@ -12,6 +12,7 @@ const MoviesPage = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query");
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     if (query) {
@@ -45,7 +46,9 @@ const MoviesPage = () => {
         <ul className={style.list}>
           {movies.map((movie) => (
             <li key={movie.id}>
-              <SimilarMoviesCard movie={movie} />
+              <Link to={`/movies/${movie.id}`} state={{ from: location }}>
+                <SimilarMoviesCard movie={movie} />
+              </Link>
             </li>
           ))}
         </ul>

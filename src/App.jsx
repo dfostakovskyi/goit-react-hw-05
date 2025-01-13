@@ -1,5 +1,6 @@
 // F:/Prodject/goit-react-hw-05/src/App.jsx
-import React, { Suspense, lazy } from "react";
+
+import { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage/HomePage";
 import MoviesPage from "./pages/MoviesPage/MoviesPage";

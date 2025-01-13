@@ -1,5 +1,6 @@
 // src\pages\MovieDetailsPage\MovieDetailsPage.jsx
-import { useState, useEffect } from "react";
+
+import { useState, useEffect, useRef } from "react";
 import {
   useParams,
   useNavigate,
@@ -20,9 +21,14 @@ const MovieDetailsPage = () => {
   const placeholderImage =
     "https://placeholder.pics/svg/500x750/cccccc/808080/No%20Image";
   const placeholderBackdrop =
-    "https://placeholder.pics/svg/1280x720/cccccc/808080/No%20Image"; // Плейсхолдер для backdrop
+    "https://placeholder.pics/svg/1280x720/cccccc/808080/No%20Image";
+
+  const backLink = useRef(location.state?.from ?? "/movies");
 
   useEffect(() => {
+    console.log("MovieDetailsPage location.state?.from:", location.state?.from);
+    console.log("MovieDetailsPage backLink.current:", backLink.current);
+
     getMovieDetails(movieId)
       .then((data) => {
         setMovie(data);
@@ -44,11 +50,8 @@ const MovieDetailsPage = () => {
   }, [movieId]);
 
   const handleGoBack = () => {
-    if (location.state && location.state.from) {
-      navigate(location.state.from);
-    } else {
-      navigate("/movies");
-    }
+    console.log("Navigating to:", backLink.current);
+    navigate(backLink.current);
   };
 
   if (!movie) {

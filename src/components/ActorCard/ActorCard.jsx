@@ -16,7 +16,7 @@ const ActorCard = ({ actor }) => {
         <div className={style.placeholder}></div>
       )}
       <div className={style.details}>
-        <h3>{actor.name}</h3>
+        <h3 className={style.actorsName}>{actor.name}</h3>
         <p>Character: {actor.character}</p>
       </div>
     </div>

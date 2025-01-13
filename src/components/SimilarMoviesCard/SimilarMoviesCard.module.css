@@ -29,8 +29,8 @@
   box-sizing: border-box;
 }
 
-h3 {
+.title {
   margin: 0;
   font-size: 1.2em;
-  color: #fff; /* Change to white to ensure readability over the dark background */
+  color: #fff;
 }

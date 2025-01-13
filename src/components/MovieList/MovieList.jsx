@@ -1,35 +1,19 @@
-// src/components/MovieList/MovieList.jsx
-
-import { useState, useEffect } from "react";
-import { getTrendingMovies } from "../../services/api";
-import { Link } from "react-router-dom";
+// src\components\MovieList\MovieList.jsx
+import { useLocation, Link } from "react-router-dom";
+import SimilarMoviesCard from "../SimilarMoviesCard/SimilarMoviesCard";
 import style from "./MovieList.module.css";
 
-export const MovieList = () => {
-  const [movies, setMovies] = useState([]);
-
-  useEffect(() => {
-    let isMounted = true;
-    getTrendingMovies().then((data) => {
-      if (isMounted) {
-        if (Array.isArray(data.results)) {
-          setMovies(data.results);
-        } else {
-          console.error("Error: data.results is not an array");
-        }
-      }
-    });
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+const MovieList = ({ movies }) => {
+  const location = useLocation(); // Використовуємо useLocation для отримання поточного місцезнаходження
 
   return (
     <ul className={style.list}>
-      {movies.map(({ id, title }) => (
-        <li key={id}>
-          <Link to={`/movies/${id}`}>
-            <p>{title}</p>
+      {movies.map((movie) => (
+        <li key={movie.id} className={style.listItem}>
+          <Link to={`/movies/${movie.id}`} state={{ from: location }}>
+            {" "}
+            {/* Передаємо значення як проп state */}
+            <SimilarMoviesCard movie={movie} />
           </Link>
         </li>
       ))}

@@ -1,30 +1,50 @@
 // src\components\SimilarMoviesCard\SimilarMoviesCard.jsx
 // src\components\SimilarMoviesCard\SimilarMoviesCard.module.css
-import React from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import style from "./SimilarMoviesCard.module.css";
 
 const SimilarMoviesCard = ({ movie }) => {
-  const placeholderImage =
-    "https://placeholder.pics/svg/500x750/cccccc/808080/No%20Image";
+  const [imageUrl, setImageUrl] = useState("");
+
+  useEffect(() => {
+    const placeholderImage =
+      window.innerWidth <= 600
+        ? `https://image.tmdb.org/t/p/w250_and_h375_bestv2${movie.poster_path}`
+        : `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+
+    setImageUrl(
+      movie.poster_path
+        ? placeholderImage
+        : "https://placeholder.pics/svg/500x750/cccccc/808080/No%20Image"
+    );
+
+    const handleResize = () => {
+      const newPlaceholderImage =
+        window.innerWidth <= 600
+          ? `https://image.tmdb.org/t/p/w250_and_h375_bestv2${movie.poster_path}`
+          : `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+
+      setImageUrl(
+        movie.poster_path
+          ? newPlaceholderImage
+          : "https://placeholder.pics/svg/500x750/cccccc/808080/No%20Image"
+      );
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [movie.poster_path]);
 
   return (
     <div className={style.card}>
-      <Link to={`/movies/${movie.id}`}>
-        <img
-          src={
-            movie.poster_path
-              ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-              : placeholderImage
-          }
-          alt={movie.title}
-          className={style.image}
-        />
-        <div className={style.info}>
-          <h3>{movie.title}</h3>
-        </div>
-      </Link>
+      <img src={imageUrl} alt={movie.title} className={style.image} />
+      <div className={style.info}>
+        <h3 className={style.title}>{movie.title}</h3>
+      </div>
     </div>
   );
 };
