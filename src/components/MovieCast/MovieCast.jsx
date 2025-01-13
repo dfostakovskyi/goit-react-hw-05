@@ -9,20 +9,36 @@ import style from "./MovieCast.module.css";
 export const MovieCast = () => {
   const { movieId } = useParams();
   const [cast, setCast] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    getMovieCredits(movieId)
-      .then((data) => {
+    const fetchMovieCredits = async () => {
+      try {
+        const data = await getMovieCredits(movieId);
         if (Array.isArray(data.cast)) {
           setCast(data.cast);
         } else {
-          console.error("Error: data.cast is not an array", data.cast);
+          throw new Error("Data cast is not an array");
         }
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Error fetching movie credits:", err);
-      });
+        setError("Failed to fetch movie credits");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMovieCredits();
   }, [movieId]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
 
   return (
     <div className={style.cast}>

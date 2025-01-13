@@ -1,11 +1,13 @@
 // src\components\Navigation\Navigation.jsx
-import { NavLink } from "react-router-dom";
+import React from "react";
+import CustomNavLink from "../NavLink/NavLink"; // Corrected relative path
+import style from "./Navigation.module.css";
 
-export const Navigation = () => {
+const Navigation = () => {
   return (
-    <nav>
-      <NavLink to="/">Home</NavLink>
-      <NavLink to="/movies">Movies</NavLink>
+    <nav className={style.navigation}>
+      <CustomNavLink to="/">Home</CustomNavLink>
+      <CustomNavLink to="/movies">Movies</CustomNavLink>
     </nav>
   );
 };

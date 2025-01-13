@@ -1,13 +1,26 @@
 // src\components\NavLink\NavLink.jsx
-import { Link } from "react-router-dom";
-import s from "./NavLink.module.css";
+import React from "react";
+import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
+import style from "./NavLink.module.css";
 
-export const NavLink = ({ to, children }) => {
+const CustomNavLink = ({ to, children }) => {
   return (
-    <Link to={to} className={s.link} activeClassName={s.active} exact>
+    <NavLink
+      to={to}
+      className={({ isActive }) =>
+        isActive ? `${style.link} ${style.active}` : style.link
+      }
+      exact
+    >
       {children}
-    </Link>
+    </NavLink>
   );
 };
 
-export default NavLink;
+CustomNavLink.propTypes = {
+  to: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+};
+
+export default CustomNavLink;

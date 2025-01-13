@@ -10,9 +10,11 @@ const MoviesPage = () => {
   const [movies, setMovies] = useState([]);
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (query) {
+      setLoading(true);
       searchMovies(query)
         .then((data) => {
           if (Array.isArray(data.results)) {
@@ -23,23 +25,30 @@ const MoviesPage = () => {
         })
         .catch((err) => {
           console.error("Error fetching movies:", err);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   }, [query]);
 
   return (
-    <div>
+    <div className={style.container}>
       <h2>Movies</h2>
       <SearchForm />
-      <ul className={style.list}>
-        {movies.map(({ id, title }) => (
-          <li key={id}>
-            <Link to={`/movies/${id}`}>
-              <p>{title}</p>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <ul className={style.list}>
+          {movies.map(({ id, title }) => (
+            <li key={id}>
+              <Link to={`/movies/${id}`}>
+                <p>{title}</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

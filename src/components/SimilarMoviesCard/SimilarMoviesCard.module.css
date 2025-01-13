@@ -1,0 +1,36 @@
+/* src\components\SimilarMoviesCard\SimilarMoviesCard.module.css */
+.card {
+  position: relative;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 200px;
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.image {
+  width: 100%;
+  height: auto;
+}
+
+.info {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+h3 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #fff; /* Change to white to ensure readability over the dark background */
+}

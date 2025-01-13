@@ -1,19 +1,26 @@
+// src\pages\MovieDetailsPage\MovieDetailsPage.jsx
 import { useState, useEffect } from "react";
-import { useParams, Link, Outlet } from "react-router-dom";
 import {
-  getMovieDetails,
-  getMovieCredits,
-  getMovieVideos,
-  getSimilarMovies,
-} from "../../services/api";
+  useParams,
+  useNavigate,
+  useLocation,
+  Link,
+  Outlet,
+} from "react-router-dom";
+import { RotatingLines } from "react-loader-spinner";
+import { getMovieDetails, getMovieCredits } from "../../services/api";
 import style from "./MovieDetailsPage.module.css";
 
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [movie, setMovie] = useState(null);
   const [director, setDirector] = useState("");
-  const [trailers, setTrailers] = useState([]);
-  const [similarMovies, setSimilarMovies] = useState([]);
+  const placeholderImage =
+    "https://placeholder.pics/svg/500x750/cccccc/808080/No%20Image";
+  const placeholderBackdrop =
+    "https://placeholder.pics/svg/1280x720/cccccc/808080/No%20Image"; // Плейсхолдер для backdrop
 
   useEffect(() => {
     getMovieDetails(movieId)
@@ -34,91 +41,108 @@ const MovieDetailsPage = () => {
       .catch((err) => {
         console.error("Error fetching movie credits:", err);
       });
-
-    getMovieVideos(movieId)
-      .then((data) => {
-        setTrailers(data.results);
-      })
-      .catch((err) => {
-        console.error("Error fetching movie videos:", err);
-      });
-
-    getSimilarMovies(movieId)
-      .then((data) => {
-        setSimilarMovies(data.results);
-      })
-      .catch((err) => {
-        console.error("Error fetching similar movies:", err);
-      });
   }, [movieId]);
 
+  const handleGoBack = () => {
+    if (location.state && location.state.from) {
+      navigate(location.state.from);
+    } else {
+      navigate("/movies");
+    }
+  };
+
   if (!movie) {
-    return <div>Loading...</div>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <RotatingLines
+          strokeColor="#00BFFF"
+          strokeWidth="5"
+          animationDuration="0.75"
+          width="96"
+          visible={true}
+        />
+      </div>
+    );
   }
 
   return (
-    <div>
-      <Link to="/movies" className={style.backButton}>
+    <div className={style.container}>
+      <button className={style.backButton} onClick={handleGoBack}>
         Go Back
-      </Link>
-      <div className={style.details}>
-        <img
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-          alt={movie.title}
-        />
-        <h1>{movie.title}</h1>
-        <p>Rating: {movie.vote_average}</p>
-        <p>Overview: {movie.overview}</p>
-        <p>Genres: {movie.genres.map((genre) => genre.name).join(", ")}</p>
-        <p>Release Date: {movie.release_date}</p>
-        <p>Runtime: {movie.runtime} minutes</p>
-        <p>Director: {director}</p>
-        <p>
-          Production Companies:{" "}
-          {movie.production_companies.map((company) => company.name).join(", ")}
-        </p>
-        <p>Budget: ${movie.budget.toLocaleString()}</p>
-        <p>Revenue: ${movie.revenue.toLocaleString()}</p>
+      </button>
+
+      <div
+        className={style.pageContainer}
+        style={{
+          backgroundImage: `url(${
+            movie.backdrop_path
+              ? `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`
+              : placeholderBackdrop
+          })`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className={style.details}>
+          <img
+            src={
+              movie.poster_path
+                ? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
+                : placeholderImage
+            }
+            alt={movie.title}
+          />
+          <div className={style.info}>
+            <h1>{movie.title}</h1>
+            <p>Rating: {movie.vote_average}</p>
+            <p>Overview: {movie.overview}</p>
+            <p>Genres: {movie.genres.map((genre) => genre.name).join(", ")}</p>
+            <p>Release Date: {movie.release_date}</p>
+            <p>Runtime: {movie.runtime} minutes</p>
+            <p>Director: {director}</p>
+            <p>
+              Production Companies:{" "}
+              {movie.production_companies
+                .map((company) => company.name)
+                .join(", ")}
+            </p>
+            <p>Budget: ${movie.budget.toLocaleString()}</p>
+            <p>Revenue: ${movie.revenue.toLocaleString()}</p>
+          </div>
+        </div>
       </div>
       <div className={style.additionalInfo}>
         <h2>Additional Information</h2>
-        <ul>
+        <ul className={style.additionalInfoList}>
           <li>
-            <Link to={`/movies/${movieId}/cast`}>Cast</Link>
+            <Link to={`/movies/${movieId}/cast`} state={{ from: location }}>
+              Cast
+            </Link>
           </li>
           <li>
-            <Link to={`/movies/${movieId}/reviews`}>Reviews</Link>
+            <Link to={`/movies/${movieId}/reviews`} state={{ from: location }}>
+              Reviews
+            </Link>
           </li>
           <li>
-            <Link to={`/movies/${movieId}/trailers`}>Trailers</Link>
+            <Link to={`/movies/${movieId}/trailers`} state={{ from: location }}>
+              Trailers
+            </Link>
           </li>
           <li>
-            <Link to={`/movies/${movieId}/similar`}>Similar Movies</Link>
+            <Link to={`/movies/${movieId}/similar`} state={{ from: location }}>
+              Similar movies
+            </Link>
           </li>
         </ul>
-        <Outlet />
-      </div>
-      <div>
-        <h2>Trailers</h2>
-        {trailers.map((trailer) => (
-          <div key={trailer.id}>
-            <a
-              href={`https://www.youtube.com/watch?v=${trailer.key}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {trailer.name}
-            </a>
-          </div>
-        ))}
-      </div>
-      <div>
-        <h2>Similar Movies</h2>
-        {similarMovies.map((similarMovie) => (
-          <div key={similarMovie.id}>
-            <Link to={`/movies/${similarMovie.id}`}>{similarMovie.title}</Link>
-          </div>
-        ))}
+        <Outlet context={{ movieId }} />
       </div>
     </div>
   );

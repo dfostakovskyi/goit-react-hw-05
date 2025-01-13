@@ -1,0 +1,6 @@
+.navigation {
+  display: flex;
+  justify-content: flex-start;
+  gap: 30px;
+  padding-left: 40px;
+}

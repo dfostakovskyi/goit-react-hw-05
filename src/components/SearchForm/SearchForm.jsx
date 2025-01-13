@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import style from "./SearchForm.module.css";
 
 export const SearchForm = () => {
   const [query, setQuery] = useState("");
@@ -25,6 +26,7 @@ export const SearchForm = () => {
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        className={style.input}
       />
       <button type="submit">Search</button>
     </form>

@@ -1,0 +1,8 @@
+.link {
+  text-decoration: none;
+  color: initial; /* Reset any inherited colors */
+}
+
+.active {
+  color: red !important; /* Ensure the active color is applied */
+}
