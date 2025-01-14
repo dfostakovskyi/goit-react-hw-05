@@ -90,10 +90,6 @@
 }
 
 @media (max-width: 600px) {
-  .card img {
-    content: url("https://image.tmdb.org/t/p/w250${movie.poster_path}");
-  }
-
   .details {
     background-color: rgba(0, 0, 0, 0.7);
     padding: 6px;

@@ -8,35 +8,11 @@ const SimilarMoviesCard = ({ movie }) => {
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
-    const placeholderImage =
-      window.innerWidth <= 600
-        ? `https://image.tmdb.org/t/p/w250_and_h375_bestv2${movie.poster_path}`
-        : `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-
     setImageUrl(
       movie.poster_path
-        ? placeholderImage
+        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
         : "https://placeholder.pics/svg/500x750/cccccc/808080/No%20Image"
     );
-
-    const handleResize = () => {
-      const newPlaceholderImage =
-        window.innerWidth <= 600
-          ? `https://image.tmdb.org/t/p/w250_and_h375_bestv2${movie.poster_path}`
-          : `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-
-      setImageUrl(
-        movie.poster_path
-          ? newPlaceholderImage
-          : "https://placeholder.pics/svg/500x750/cccccc/808080/No%20Image"
-      );
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
   }, [movie.poster_path]);
 
   return (
