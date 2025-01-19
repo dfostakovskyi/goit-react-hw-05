@@ -1,8 +1,3 @@
-# React + Vite
+Search for movies
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+My web application is your indispensable assistant in the world of cinema. With the help of a powerful search and a large database, you can easily find information about any film. Discover new premieres, explore different genres and read reviews from critics and other users. My application also provides detailed information about actors, directors, crew and interesting facts from the set.
